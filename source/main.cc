@@ -1,11 +1,10 @@
-#include <string>
 #include <csignal>
 #include "joystick.h"
 #include "keyboard.h"
-#include "prototypes.h"
+#include <sigc++/sigc++.h>
 #include <linux/input-event-codes.h>
 
-#define unused(x) ((void) x)
+#define unused(x) ((void)x)
 
 bool keep_running = true;
 
@@ -24,20 +23,16 @@ int main(int argc, char const **argv)
     Joystick joystick;
     Keyboard keyboard;
 
-    game_config_t gameConfig = {
-        .brake = 0,
-        .accelerate = 0,
-        .steerDirection = 0,
-        .steerPercentage = 1.0f
-    };
+    keyboard.brake.connect(sigc::mem_fun(joystick, &Joystick::emit_button_event));
+    keyboard.accelerate.connect(sigc::mem_fun(joystick, &Joystick::emit_button_event));
+
+    keyboard.steer.connect(sigc::mem_fun(joystick, &Joystick::set_direction));
+    keyboard.actionKey.connect(sigc::mem_fun(joystick, &Joystick::set_percentage));
 
     while (keep_running)
     {
-        keyboard.handle_keys(&gameConfig);
-
-        joystick.emit_button_event(BTN_X, gameConfig.brake);
-        joystick.emit_button_event(BTN_Y, gameConfig.accelerate);
-        joystick.emit_axis_event(ABS_X, gameConfig.steerDirection * gameConfig.steerPercentage * INT16_MAX);
+        keyboard.handle_keys();
+        joystick.emit_x_axis_event();
     }
 
     return 0;

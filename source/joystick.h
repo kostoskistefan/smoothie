@@ -6,11 +6,18 @@ class Joystick
 public:
     Joystick();
     ~Joystick();
-    void emit_axis_event(short unsigned axis, int value);
+
+    void set_direction(int direction);
+    void set_percentage(float percentage);
+
+    void emit_x_axis_event();
     void emit_button_event(short unsigned button, int value);
 
 private:
+    int direction;
+    float percentage;
     int fileDescriptor;
+
     void initialize_axes();
     void initialize_buttons();
     void initialize_controller();

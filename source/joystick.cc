@@ -15,6 +15,9 @@ Joystick::Joystick()
 
     if (ioctl(fileDescriptor, UI_DEV_CREATE) < 0)
         Utilities::exit_failure("Failed to create virtual device");
+
+    direction = 0;
+    percentage = 1.0;
 }
 
 Joystick::~Joystick()
@@ -78,9 +81,9 @@ void Joystick::emit_generic_event(short unsigned type, short unsigned code, int 
     write(fileDescriptor, &event, sizeof(event));
 }
 
-void Joystick::emit_axis_event(short unsigned axis, int value)
+void Joystick::emit_x_axis_event()
 {
-    emit_generic_event(EV_ABS, axis, value);
+    emit_generic_event(EV_ABS, ABS_X, direction * percentage * INT16_MAX);
     emit_generic_event(EV_SYN, SYN_REPORT, 0);
 }
 
@@ -88,4 +91,14 @@ void Joystick::emit_button_event(short unsigned button, int value)
 {
     emit_generic_event(EV_KEY, button, value);
     emit_generic_event(EV_SYN, SYN_REPORT, 0);
+}
+
+void Joystick::set_percentage(float percentage)
+{
+    this->percentage = percentage;
+}
+
+void Joystick::set_direction(int direction)
+{
+    this->direction = direction;
 }
