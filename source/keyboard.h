@@ -4,8 +4,12 @@
 #include <map>
 #include <array>
 #include <string>
-#include <linux/uinput.h>
 #include <sigc++/sigc++.h>
+#include "settings.h"
+
+#if defined(__linux__) || defined(__unix__)
+    #include <linux/uinput.h>
+#endif
 
 #define KEY_PRESSED  1
 #define KEY_RELEASED 0
@@ -30,10 +34,7 @@ protected:
 private:
     int fileDescriptor;
     struct input_event event;
-    std::array<std::string, 14> keys;
-    std::map<std::string, int> keyDefinitions;
-
-    void initialize_key_definitions();
+    Settings settings;
 };
 
 #endif // KEYBOARD_H

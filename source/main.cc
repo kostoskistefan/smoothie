@@ -1,4 +1,6 @@
 #include "smoothie.h"
+#include "settings.h"
+#include <iostream>
 
 int main()
 {

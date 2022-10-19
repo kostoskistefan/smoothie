@@ -11,7 +11,7 @@ CFLAGS := 	-Wall   \
 			-pedantic \
 			-std=c++20 \
 			-Wno-missing-field-initializers \
-			$(shell pkg-config --cflags --libs sdl2 sigc++-3.0)
+			$(shell pkg-config --cflags --libs sigc++-3.0)
 
 all: $(OBJECT_FILES) 
 	g++ -o $(TARGET) $(OBJECT_FILES) $(CFLAGS)

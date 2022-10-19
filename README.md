@@ -4,7 +4,6 @@ Smoothie is a software that converts your digital keyboard into an analog input 
 
 ## Dependencies
 
- * SDL2
  * libsigc++
 
 ## Linux
