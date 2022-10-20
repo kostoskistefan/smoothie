@@ -14,13 +14,10 @@ public:
     std::map<std::string, std::string> read();
 
 private:
-    static const std::string help;
-
     std::string get_settings_directory();
     std::string get_settings_file_path();
 
     std::pair<std::string, std::string> split(const std::string &string);
-
 };
 
 #endif // INI_PARSER_H

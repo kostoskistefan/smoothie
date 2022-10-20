@@ -54,7 +54,7 @@ void Joystick::initialize_controller()
     initialize_buttons();    
 
     struct uinput_user_dev userDev = {
-        .name = "Smoothie Controller",
+        .name = "Smoothie Virtual Controller",
         .id = {
             .bustype = BUS_VIRTUAL,
             .vendor = 0x044F,
